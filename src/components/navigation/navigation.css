@@ -1,0 +1,31 @@
+
+.menu-navigation {
+    margin-right: 10px;
+    font-size: 1em;
+    line-height: 1.3;
+    color: white;
+    border: none;
+    background: linear-gradient(#52cfeb, #42A2BC);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.35), inset 0 3px 2px rgba(255, 255, 255, 0.2), inset 0 -3px 2px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.menu-navigation:hover {
+    color: rgb(252, 189, 189);
+    background: linear-gradient(#22a4c2, rgb(42, 113, 133));
+
+}
+
+.navigation {
+  padding: 5px 0 5px 0;
+  height: 1.5em;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  background: #382b2d;
+}
+
+.menu-navigation.disabled {
+    pointer-events: none;
+    opacity: 0.2;
+  }

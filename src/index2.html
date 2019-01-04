@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>RSS Game project </title>
+	<meta charset="utf-8">
+	<meta name="Aleh Serhienya" content="#">
+	<meta name="description" content="RSS Game buttle"/>
+	<!-- <script src="../dist/main.js" defer></script> -->
+	<!-- <link rel="stylesheet" type="text/css" href="../dist/battle.css">
+	<link rel="stylesheet" type="text/css" href="../dist/style.css"> -->
+    
+</head>
+<body>
+	<!-- <div class="loaderArea">
+		<div class="load">
+			<hr/><hr/><hr/><hr/>
+		</div> -->
+	</div>
+	<main>
+		<div class="MainWrapper">
+			<div class="wrapper">
+				<header class="navigation">
+					<input id="home"  class = "menu-navigation" type="button" value="Home">
+					<input id="score"  class = "menu-navigation" type="button" value="таблица рекордов">
+					<input id="start-game"  class = "menu-navigation" type="button" value="Начать игру">					
+					<input id="exit-game"  class = "menu-navigation" type="button" value="Выйти">
+				</header>
+
+				<section class="start-page" id="start-page">	
+						<p class="start-game-panel">
+							<button name="submit" class = "button-start" type="submit">НАЧАТЬ</button>
+						</p>
+				</section>	
+
+				<section class="modal-dialog">	
+					<div class="spells">
+						<input  class = "button top-left" type="button" value="Автомат">
+						<input  class = "button top-right" type="button" value="Аптечка"> <br>
+						<input  class = "button bottom-left" type="button" value="Базука">
+						<input  class = "button bottom-right" type="button" value="Нож">
+						<input  class = "monsterAttack" type="button" value="атака монстра">
+					</div>
+				</section>	
+				
+				<section class="battle">	
+
+					<section class="Player">
+							
+						<div class="descriptionCard Hero">
+							<p class="infoHero"> </p>
+							<p class="nameHeroLife"> </p>
+							<div class="boxLife">
+								<div class="life Hero">
+								</div>
+							</div>
+								
+						</div>
+						<div id="HeroImages" class="HeroImages">
+							<img class ="player1" src="">
+						</div>
+							
+					</section>
+
+					<section class="Animation">
+						
+						<div class="round">
+							<p class="roundNumder"></p>
+						</div>
+
+						<!-- <input  class = "attack hidden" type="button" value="Атаковать"> -->
+
+						<div class="bulletHero">
+							<img class="weaponHero" src="">
+						</div>
+
+					</section>
+
+					<section class="Monsters">
+
+						<div class="descriptionCard Monster">
+							<p class="infoMonster"> </p>
+							<p class="nameMonsterLife"> </p>
+							<div class="boxLife right">
+								<div class="life Monster">
+								</div>
+							</div>
+						</div>
+						<div class="MonsterImages" id="MonsterImages">
+								<img class="MonsterIm legs" src="">
+								<img class="MonsterIm body" src="">	
+								<img class="MonsterIm head" src="">
+						</div>
+						
+					</section>
+
+				</section>
+				<section class = "modal-game-over" id="gameOver">
+					<div class="inscription" id = "inscription">
+						<h2 class="game-over">Конец игры</h2>
+					</div>
+				</section>
+			</div>
+		</div>
+
+<!--  End services  -->
+
+	</main>
+	
+	<script src="../dist/main.js" defer></script>
+    <!-- <script src='test.js'></script> -->
+</body>
+</html>
