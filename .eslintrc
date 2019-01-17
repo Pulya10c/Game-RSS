@@ -1,0 +1,13 @@
+{
+    "extends": "airbnb-base",
+    "env": {
+        "browser": true,
+        "node": true,
+        "jest": true
+    },
+    "rules": {
+        "linebreak-style": 0,
+        "eslint no-eval": "error",
+        "eslint global-require": "error"
+     }
+}

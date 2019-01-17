@@ -76,7 +76,7 @@ section h3.title{
 
 section p{
 	max-width: 800px;
-	text-align: center;
+	text-align: justify;
 	margin-bottom: 35px;
 	padding: 0 20px;
 	line-height: 2;
@@ -122,14 +122,11 @@ header nav li:last-child{
 	margin-right: 0;	
 }
 
-
-
 @media (max-width: 1000px){
 	header{
 		padding: 20px 50px;
 	}
 }
-
 
 @media (max-width: 700px){
 	header{
@@ -140,7 +137,6 @@ header nav li:last-child{
 		margin-bottom: 15px;
 	}
 }
-
 
 .hero{
 	position: relative;
@@ -212,9 +208,8 @@ header nav li:last-child{
 
 .product .grid li{
 	padding: 20px;
-	height: 300px;
+	height: 320px;
 	border-radius: 3px;
-
 	background-clip: content-box;
 	background-size: cover;
 	background-position: center;
@@ -226,9 +221,8 @@ header nav li:last-child{
 }
 
 .product .grid li.large{
-	flex-basis: 60%;
+	flex-basis: 55%;
 }
-
 
 @media (max-width: 1000px){
 
@@ -308,7 +302,7 @@ header nav li:last-child{
     line-height: 1.5;
     margin-bottom: 20px;
 	margin: auto;
-	padding: 15px 0;
+	padding: 35px 0;
 }
 
 .about-me .author{
@@ -330,11 +324,11 @@ header nav li:last-child{
 }
 
 .about-me .grid li.small {
-    flex-basis: 20%;
+    flex-basis: 30%;
 }
 
 .about-me .grid li.large {
-	flex-basis: 80%;
+	flex-basis: 70%;
 }
 
 .link-github{
@@ -368,7 +362,6 @@ header nav li:last-child{
 	align-items: center;
 	justify-content: center;
 	flex-wrap: wrap;
-
 	max-width: 800px;
 	width: 80%;
 }
@@ -441,7 +434,3 @@ footer p a{
 	}
 
 }
-/* 
-@media (max-width: 1200px) {
-	#bsaHolder{ display:none;}
-} */

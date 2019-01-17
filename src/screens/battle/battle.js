@@ -1,7 +1,9 @@
-/* eslint-disable no-undef */
-/* eslint-disable eslint global-require */
 /* eslint-disable eslint no-eval */
-// eslint-disable-next-line eslint no-eval
+/* eslint-disable no-eval */
+/* eslint-disable no-param-reassign */
+/* eslint-disable eslint global-require */
+/* eslint-disable-next-line eslint no-eval */
+/* eslint-disable no-undef */
 
 import calculateAnswer from '../../components/tasks/calculateAnswer';
 import compareNumbers from '../../components/tasks/compareNumbers';
@@ -23,6 +25,10 @@ import bullet from './img/bullet.png';
 import knife from './img/knife.png';
 import shelling from './img/shelling.png';
 
+import head1 from './img/Head_1.png';
+import head2 from './img/Head_2.png';
+import head3 from './img/Head_3.png';
+
 import tombstoneHero from './img/tombstoneHero.png';
 import './img/Hero_1_idle.png';
 import './img/Hero_1_Attack_1.png';
@@ -36,6 +42,8 @@ import cryMonster from '../../../audio/cryMonster.mp3';
 import music from '../../../audio/music.mp3';
 import heroRuning from '../../../audio/runing.mp3';
 import kickKnife from '../../../audio/knife.mp3';
+import kickHero from '../../../audio/udarHero.mp3';
+import ded from '../../../audio/ded.mp3';
 
 import MonsterHeadIdle1 from './img/troll_1_Head_Idle.png';
 import MonsterHeadIdle2 from './img/troll_2_Head_Idle.png';
@@ -67,9 +75,20 @@ import MonsterLegsDie1 from './img/troll_1_Legs_Hurt.png';
 import MonsterLegsDie2 from './img/troll_2_Legs_Hurt.png';
 import MonsterLegsDie3 from './img/troll_3_Legs_Hurt.png';
 
+import './img/1_game_background.png';
+import './img/2_game_background.png';
+import './img/3_game_background.png';
+import './img/4_game_background.png';
+
 import './battle.css';
 
 import ReturnUserName from '../login/login';
+
+let startLifeHero = 100;
+
+const scen = [' scen1', ' scen2', ' scen3', ' scen4'];
+
+const monsterWeapon = [head1, head2, head3];
 
 let conditionTask;
 const taskArray = [
@@ -109,9 +128,6 @@ const lifeMonster = document.querySelector('.life.Monster');
 const lifeHero = document.querySelector('.life.Hero');
 const cannonHero = document.querySelector('.bulletHero');
 const attackHero = document.querySelector('.HeroImages');
-// const MLegs = document.querySelector('.MonsterIm.legs');
-// const MHead = document.querySelector('.MonsterIm.head');
-// const MBody = document.querySelector('.MonsterIm.body');
 const player1 = document.querySelector('#HeroImages');
 const MonsterWound = document.querySelector('#MonsterWound');
 
@@ -124,13 +140,13 @@ const pause = time => new Promise((resolve) => {
 class Monster {
   constructor() {
     this.essence = 'monster';
-    this.name = `${monsterNameProp.adjective[Math.round(Math.random() * (monsterNameProp.adjective.length - 1))]}`
-         + ` ${monsterNameProp.subject[Math.round(Math.random() * (monsterNameProp.subject.length - 1))]}`
-         + ` ${monsterNameProp.name[Math.round(Math.random() * (monsterNameProp.name.length - 1))]}`;
+    this.name = `${monsterNameProp.adjective[Math.floor(Math.random() * (monsterNameProp.adjective.length))]}`
+         + ` ${monsterNameProp.subject[Math.floor(Math.random() * (monsterNameProp.subject.length))]}`
+         + ` ${monsterNameProp.name[Math.floor(Math.random() * (monsterNameProp.name.length))]}`;
     this.life = 100;
-    this.header = Math.round(Math.random() * (MonsterHeadIdle.length - 1));
-    this.boder = Math.round(Math.random() * (MonsterBodyIdle.length - 1));
-    this.lenger = Math.round(Math.random() * (MonsterLegsIdle.length - 1));
+    this.header = Math.floor(Math.random() * (MonsterHeadIdle.length));
+    this.boder = Math.floor(Math.random() * (MonsterBodyIdle.length));
+    this.lenger = Math.floor(Math.random() * (MonsterLegsIdle.length));
     this.ImgMonster = {
       headIdle: MonsterHeadIdle[this.header],
       bodyIdle: MonsterBodyIdle[this.boder],
@@ -145,32 +161,43 @@ class Monster {
   }
 
   init() {
+    this.life = 100;
     document.querySelector('#MonsterImLegs').style.backgroundImage = `url(${this.ImgMonster.legsIdle})`;
     document.querySelector('#MonsterImHead').style.backgroundImage = `url(${this.ImgMonster.headIdle})`;
     document.querySelector('#MonsterImBody').style.backgroundImage = `url(${this.ImgMonster.bodyIdle})`;
-    document.querySelector('.life.Monster').style.width = '100px';
+    document.querySelector('.life.Monster').style.width = `${this.life}px`;
     document.querySelector('.life.Monster').style.backgroundColor = 'green';
     document.querySelector('.infoMonster').innerHTML = this.name;
     document.querySelector('.nameMonsterLife').innerHTML = this.life;
   }
 
   async attack() {
+    weaponHero.src = monsterWeapon[this.header];
     Monster.setMonsterActivity('Attack', this.ImgMonster.headAttack, this.ImgMonster.bodyAttack, this.ImgMonster.legsAttack);
+    await pause(1500);
+    cannonHero.className = 'bulletHero go Monster';
+    Monster.setMonsterActivity('', '', this.ImgMonster.bodyIdle, this.ImgMonster.legsIdle);
+    await pause(800);
+    playSound(kickHero);
+    player1.className = 'HeroImages Hurt';
+    await pause(1100);
+    Monster.setMonsterActivity('', this.ImgMonster.headIdle, this.ImgMonster.bodyIdle, this.ImgMonster.legsIdle);
+    await pause(200);
+    cannonHero.className = 'bulletHero';
+    player1.className = 'HeroImages Idle';
+    damage = 20;
+    weaponHero.src = bullet;
+  }
 
-    // player1.className = 'HeroImages Attack1';
-    // damage = 15;
-    // weaponHero.src = bullet;
-    // await pause(700);
-    // cannonHero.className += ' go1';
-    // playSound(shot);
-    // player1.className = 'HeroImages Idle';
-    // await pause(1000);
-    // MonsterWound.className += ' wound';
-    // await pause(200);
-    // Monster.setMonsterActivity('Hurt', element.ImgMonster.headDie, element.ImgMonster.bodyDie, element.ImgMonster.legsDie);
-    // playSound(cryMonster);
-    // MonsterWound.className = 'MonsterIm';
-    // await pause(3500);
+  async healthUp() {
+    MonsterWound.className += ' life_up';
+    await pause(1000);
+    MonsterWound.className = 'MonsterIm';
+    if (this.life >= 100) {
+      damage = 0;
+    } else {
+      damage = -10;
+    }
   }
 
   static setMonsterActivity(skill, Head, Body, Legs) {
@@ -189,22 +216,25 @@ class Hero {
     this.winCount = 0;
     this.name = '';
     this.password = '';
-    this.life = 100;
+    this.life = startLifeHero;
   }
 
   init() {
-    document.querySelector('.life.Hero').style.width = '100px';
+    this.life = startLifeHero;
+    document.querySelector('.life.Hero').style.width = `${this.life}px`;
     document.querySelector('.life.Hero').style.backgroundColor = 'green';
     document.querySelector('.infoHero').innerHTML = this.name;
     document.querySelector('.nameHeroLife').innerHTML = this.life;
-    document.querySelector('#HeroImages').className += ' Idle';
+    player1.className = 'HeroImages Idle';
   }
 
   static setImg(img) {
-    document.querySelector('#HeroImages').className = img;
+    player1.className = img;
   }
 
   static async attack1(element) {
+    playSound(applause);
+    await pause(1000);
     player1.className = 'HeroImages Attack1';
     damage = 15;
     weaponHero.src = bullet;
@@ -218,10 +248,11 @@ class Hero {
     Monster.setMonsterActivity('Hurt', element.ImgMonster.headDie, element.ImgMonster.bodyDie, element.ImgMonster.legsDie);
     playSound(cryMonster);
     MonsterWound.className = 'MonsterIm';
-    await pause(3500);
   }
 
   static async attack3(element) {
+    playSound(applause);
+    await pause(1000);
     damage = 20;
     weaponHero.src = shelling;
     player1.className = 'HeroImages Attack3 runing-left';
@@ -242,10 +273,11 @@ class Hero {
     player1.className = 'HeroImages Attack3 runing-right';
     await pause(1000);
     player1.className = 'HeroImages Idle';
-    await pause(1000);
   }
 
   static async attack5(element) {
+    playSound(applause);
+    await pause(1000);
     damage = 10;
     weaponHero.src = knife;
     player1.className = 'HeroImages runing-right';
@@ -263,6 +295,11 @@ class Hero {
   }
 
   async healthUp() {
+    playSound(applause);
+    await pause(1000);
+    player1.className = 'HeroImages life_up';
+    await pause(2000);
+    player1.className = 'HeroImages Idle';
     if (this.life >= 100) {
       damage = 0;
     } else {
@@ -273,11 +310,10 @@ class Hero {
 
 let alian;
 let hero;
-let scoreManadge;
 
 class Game {
   constructor() {
-    this.level = 0;
+    this.level = '';
   }
 
   init() {
@@ -298,90 +334,86 @@ class Game {
     document.querySelector('.life.Hero').style.width = '';
     document.querySelector('.infoHero').innerHTML = '';
     document.querySelector('.nameHeroLife').innerHTML = '';
-    document.querySelector('#HeroImages').style.backgroundImage = '';
-    attackHero.style.backgroundImage = '';
+    player1.style.backgroundImage = '';
+    attackHero.className = '';
+    document.querySelector('.MainWrapper').className = 'MainWrapper';
 
     document.querySelector('.roundNumder').innerHTML = 'Уровень ';
   }
 
   async start() {
+    document.querySelector('.MainWrapper').className += scen[Math.floor(Math.random() * scen.length)];
     if (!document.querySelector('audio')) {
       playSound(music, true);
     }
     hero.name = ReturnUserName().name;
     hero.password = ReturnUserName().password;
+    this.level = ScoreManadge.checkForAvailbilityLevel(hero.name, hero.password);
+    hero.winCount = this.level;
+    await ScoreManadge.setScore(hero.name, hero.password, this.level);
+    await ScoreManadge.drawScore();
+
     this.level = this.level + 1;
-
-    scoreManadge = new ScoreManadge(hero.name, hero.password, hero.winCount);
-    scoreManadge.drawScore();
-
-    document.querySelector('.button-start').style.fontSize = '14vh';
-    document.querySelector('.button-start').innerHTML = 3;
+    document.querySelector('.button__start').style.fontSize = '14vh';
+    document.querySelector('.button__start').innerHTML = 3;
+    await pause(700);
+    document.querySelector('.button__start').innerHTML = 2;
+    await pause(700);
+    document.querySelector('.button__start').innerHTML = 1;
+    await pause(700);
+    document.querySelector('.button__start').style.fontSize = '10vh';
+    document.querySelector('.button__start').innerHTML = 'погнали';
     await pause(1000);
-    document.querySelector('.button-start').innerHTML = 2;
-    await pause(1000);
-    document.querySelector('.button-start').innerHTML = 1;
-    await pause(1000);
-    document.querySelector('.button-start').style.fontSize = '10vh';
-    document.querySelector('.button-start').innerHTML = 'погнали';
-    await pause(1000);
-    document.querySelector('#start-page').className = 'start-page';
+    document.querySelector('.button__start').innerHTML = 'начать';
+    document.querySelector('#start-page').className = 'start__page';
     document.querySelector('.roundNumder').innerHTML = `Уровень ${this.level}`;
     alian.init();
     hero.init();
     await pause(2000);
     spells.className += ' Gooo';
     document.querySelector('.modal-dialog').className += ' active';
+    document.querySelector('.button.top-left').focus();
   }
 }
 
 const newGame = new Game();
 newGame.init();
 
-function drawLifeChanges(player, life) {
-  if ((life.style.width.split('px').join('') - 7) < 101) {
-    life.style.width = `${life.style.width.split('px').join('') - damage}px`;
+function drawLifeChanges(player, lifes) {
+  if ((player.life - damage) < 101) {
     player.life -= damage;
+    lifes.style.width = `${player.life}px`;
   } else {
-    life.style.width = '100px';
     player.life = 100;
+    lifes.style.width = `${player.life}px`;
   }
 }
 
-async function Attack(element) {
-  let life;
-  let healt;
-  if (element.essence === 'monster') {
-    healt = document.querySelector('.nameMonsterLife');
-    life = lifeMonster;
-  } else {
-    healt = document.querySelector('.nameHeroLife');
-    life = lifeHero;
-  }
-
-  if (life.style.width.split('px').join('') < damage) {
-    life.style.width = '0px';
-    element.life = 0;
-    healt.innerHTML = element.life;
+async function AttackPlayer() {
+  const healt = document.querySelector('.nameMonsterLife');
+  if (alian.life < damage) {
+    alian.life = 0;
+    lifeMonster.style.width = `${alian.life}px`;
+    healt.innerHTML = alian.life;
   } else if (damage < 0) {
     await drawLifeChanges(hero, lifeHero);
     document.querySelector('.nameHeroLife').innerHTML = hero.life;
   } else {
-    await drawLifeChanges(alian, life);
-    healt.innerHTML = element.life;
+    await drawLifeChanges(alian, lifeMonster);
+    healt.innerHTML = alian.life;
   }
-  if (life.style.width.split('px').join('') < 60 && life.style.width.split('px').join('') > 30) {
-    life.style.background = 'yellow';
+  if (alian.life < 60 && alian.life > 30) {
+    lifeMonster.style.background = 'yellow';
   }
-  if (life.style.width.split('px').join('') < 29) {
-    life.style.background = 'red';
+  if (alian.life < 29) {
+    lifeMonster.style.background = 'red';
   }
   cannonHero.className = 'bulletHero';
 
   if (!hero.life || !alian.life) {
     if (!hero.life) {
-      document.querySelector('#HeroImages').style.backgroundImage = `url(${tombstoneHero})`;
-      document.querySelector('.HeroImages').className += ' animation';
+      player1.style.backgroundImage = `url(${tombstoneHero})`;
+      player1.className += ' animation';
     }
     if (!alian.life) {
       await pause(1000);
@@ -392,15 +424,13 @@ async function Attack(element) {
     await pause(3000);
 
     hero.winCount += 1;
-    scoreManadge.gamer.wonFights = hero.winCount;
-    scoreManadge.setScore(herp.name, hero.password, hero.winCount);
-    scoreManadge.drawScore();
-
-    console.log(scoreManadge);
-
+    ScoreManadge.setScore(hero.name, hero.password, hero.winCount);
+    ScoreManadge.drawScore();
     document.querySelector('.game-over').innerHTML = `Ты одолел ${newGame.level}-го монстра!!!`;
     document.querySelector('#inscription').className += ' animation';
     document.querySelector('#gameOver').className += ' animation';
+
+    startLifeHero = hero.life;
 
     await pause(3000);
 
@@ -419,53 +449,125 @@ async function Attack(element) {
 
     await newGame.start();
   } else {
-    if (element.essence === 'monster') {
-      Monster.setMonsterActivity('', element.ImgMonster.headIdle, element.ImgMonster.bodyIdle, element.ImgMonster.legsIdle);
-    } else {
-      hero.setImg(HeroIdle);
-    }
+    Monster.setMonsterActivity('', alian.ImgMonster.headIdle, alian.ImgMonster.bodyIdle, alian.ImgMonster.legsIdle);
+
     await pause(2000);
+
     spells.className += ' Gooo';
     document.querySelector('.modal-dialog').className += ' active';
+    document.querySelector('.button.top-left').focus();
   }
 }
 
 const startAttackHero = async (delay) => {
   await pause(delay);
-  await Attack(alian);
+  await AttackPlayer();
 };
 
+async function attackMonster(delay) {
+  await pause(delay);
+  const healt = document.querySelector('.nameHeroLife');
 
-function goAttack(wordSpell) {
+  if (hero.life < damage) {
+    hero.life = 0;
+    lifeHero.style.width = `${hero.life}px`;
+    healt.innerHTML = hero.life;
+  } else if (damage < 0) {
+    await drawLifeChanges(alian, lifeMonster);
+    document.querySelector('.nameMonsterLife').innerHTML = alian.life;
+  } else {
+    await drawLifeChanges(hero, lifeHero);
+    document.querySelector('.nameHeroLife').innerHTML = hero.life;
+  }
+  if (hero.life < 60 && hero.life > 30) {
+    lifeHero.style.background = 'yellow';
+  }
+  if (hero.life < 29) {
+    lifeHero.style.background = 'red';
+  }
+  cannonHero.className = 'bulletHero';
+
+  if (!hero.life || !alian.life) {
+    if (!hero.life) {
+      document.querySelector('audio').remove();
+      document.querySelector('#mute').className = 'menu-navigation sound-on';
+      await playSound(ded);
+      player1.className = 'tombstoneHero';
+    }
+    if (!alian.life) {
+      await pause(1000);
+      Monster.setMonsterActivity('', '', '', '');
+      MonsterWound.style.backgroundImage = `url(${tombstoneHero})`;
+    }
+
+    await pause(3000);
+
+    document.querySelector('.game-over').innerHTML = 'Ты проиграл';
+    document.querySelector('#inscription').className += ' animation';
+    document.querySelector('#gameOver').className += ' animation';
+    startLifeHero = 100;
+    await pause(3000);
+
+    document.querySelector('.game-over').innerHTML = 'Не огорчайся, попробуй еще раз';
+
+    Game.clearGame();
+
+    await pause(3000);
+
+    document.querySelector('#inscription').className = 'inscription';
+    document.querySelector('#gameOver').className = 'modal-game-over';
+    document.querySelector('#start-page').className += ' active';
+    document.querySelector('.game-container').className = 'game-container';
+  } else {
+    player1.className = 'HeroImages Idle';
+    await pause(2000);
+    spells.className += ' Gooo';
+    document.querySelector('.modal-dialog').className += ' active';
+    document.querySelector('.button.top-left').focus();
+  }
+}
+
+function goAttackMonster(wordSpell) {
+  if (wordSpell === 'knife' || wordSpell === 'projectile' || wordSpell === 'bullet') {
+    damage = 20;
+    alian.attack();
+    attackMonster(5000);
+  }
+  if (wordSpell === 'first aid kit') {
+    damage = -10;
+    alian.healthUp();
+    attackMonster(0);
+  }
+}
+
+function goAttackHero(wordSpell) {
   if (wordSpell === 'knife') {
     Hero.attack5(alian);
     startAttackHero(6000);
   }
   if (wordSpell === 'projectile') {
     Hero.attack3(alian);
-    startAttackHero(7000);
+    startAttackHero(7500);
   }
   if (wordSpell === 'first aid kit') {
+    damage = -10;
     hero.healthUp();
     startAttackHero(0);
   }
   if (wordSpell === 'bullet') {
     Hero.attack1(alian);
-    startAttackHero(4700);
+    startAttackHero(5400);
   }
 }
 
 document.querySelector('body').addEventListener('click', (e) => {
-  if (e.target.className === 'button-start') {
+  if (e.target.className === 'button__start') {
     newGame.start();
+    document.querySelector('main').style.backgroundImage = 'url()';
   }
 });
 
 document.querySelector('.spells').addEventListener('click', (e) => {
-  if (e.target.className === 'monsterAttack') {
-    alian.attack();
-  }
-
   if (e.target.className === 'button top-left'
     || e.target.className === 'button bottom-left'
     || e.target.className === 'button top-right'
@@ -480,31 +582,22 @@ document.querySelector('.spells').addEventListener('click', (e) => {
 
       conditionTask = taskArray[Math.floor(Math.random() * taskArray.length)]();
       document.querySelector('#task').className = 'modal modal--task';
-      // document.querySelector('#ask').innerHTML = conditionTask;
-      // Hero.attack1(alian);
-      // startAttackHero(4700);
     } else
     if (wearponSelection === 'button top-right') {
       weaponsForAttack = 'first aid kit';
 
       conditionTask = taskArray[Math.floor(Math.random() * taskArray.length)]();
       document.querySelector('#task').className = 'modal modal--task';
-      // hero.healthUp();
-      // startAttackHero(0);
     } else
     if (wearponSelection === 'button bottom-left') {
       weaponsForAttack = 'projectile';
       conditionTask = taskArray[Math.floor(Math.random() * taskArray.length)]();
       document.querySelector('#task').className = 'modal modal--task';
-      // Hero.attack3(alian);
-      // startAttackHero(7000);
     } else
     if (wearponSelection === 'button bottom-right') {
       weaponsForAttack = 'knife';
       conditionTask = taskArray[Math.floor(Math.random() * taskArray.length)]();
       document.querySelector('#task').className = 'modal modal--task';
-      // Hero.attack5(alian);
-      // startAttackHero(6000);
     }
     Monster.setMonsterActivity('', alian.ImgMonster.headIdle, alian.ImgMonster.bodyIdle, alian.ImgMonster.legsIdle);
   }
@@ -513,14 +606,16 @@ document.querySelector('.spells').addEventListener('click', (e) => {
 // обработчик тасков
 
 const handlerTemplate = (taskNumber) => {
-  if (document.querySelector(taskNumber).value.toLowerCase() === String(conditionTask)) {
+  if (document.querySelector(taskNumber).value.toLowerCase()
+    .replace(/^\s*/, '')
+    .replace(/\s*$/, '') === String(conditionTask)) {
     document.querySelector('.task__condition').innerHTML = 'правильно';
-    goAttack(weaponsForAttack);
-    // Array(child).fill('task.removeChild(task.children[1])').map(item => eval(item));
+    goAttackHero(weaponsForAttack);
   } else {
     document.querySelector('.task__condition').innerHTML = 'неправильно';
+    goAttackMonster(weaponsForAttack);
   }
-  setTimeout(() => { document.querySelector('.modal.modal--task').className += ' element--hidden'; }, 0);
+  document.querySelector('.modal.modal--task').className += ' element--hidden';
 };
 
 // обработчик событий
@@ -557,14 +652,12 @@ document.querySelector('.modal').addEventListener('click', (e) => {
     }
     if (eval(comparison) === true) {
       document.querySelector('.task__condition').innerHTML = 'правильно';
-      goAttack(weaponsForAttack);
-      // Array(1).fill('task.removeChild(task.children[1])').map(item => eval(item));
+      goAttackHero(weaponsForAttack);
     } else {
       document.querySelector('.task__condition').innerHTML = 'неправильно';
-      console.log(conditionTask);
-      // Array(1).fill('task.removeChild(task.children[1])').map(item => eval(item));
+      goAttackMonster(weaponsForAttack);
     }
-    setTimeout(() => { document.querySelector('.modal.modal--task').className += ' element--hidden'; }, 0);
+    document.querySelector('.modal.modal--task').className += ' element--hidden';
   }
 
   // обработчик третьего таска
@@ -577,30 +670,26 @@ document.querySelector('.modal').addEventListener('click', (e) => {
     const ansver = document.querySelectorAll('.task-4');
     if (Array.from(ansver).map(item => item.innerText).join('') === conditionTask) {
       document.querySelector('.task__condition_task4').innerHTML = 'правильно';
-      goAttack(weaponsForAttack);
-      // Array(2).fill('task.removeChild(task.children[1])').map(item => eval(item));
+      goAttackHero(weaponsForAttack);
     } else {
       document.querySelector('.task__condition_task4').innerHTML = 'неправильно';
-      console.log(conditionTask);
-      // Array(2).fill('task.removeChild(task.children[1])').map(item => eval(item));
+      goAttackMonster(weaponsForAttack);
     }
-    setTimeout(() => { document.querySelector('.modal.modal--task').className += ' element--hidden'; }, 0);
+    document.querySelector('.modal.modal--task').className += ' element--hidden';
   }
 
   // обработчик таска №5
-  if (e.target.id === 'task5__button1' || e.target.id === 'task5__button2'
-  || e.target.id === 'task5__button3' || e.target.id === 'task5__button4'
-  || e.target.id === 'task5__button5') {
+  if (e.target.id === 'task5__button0' || e.target.id === 'task5__button1'
+  || e.target.id === 'task5__button2' || e.target.id === 'task5__button3'
+  || e.target.id === 'task5__button4') {
     if (e.target.value === conditionTask) {
       document.querySelector('.task__condition').innerHTML = 'правильно';
-      goAttack(weaponsForAttack);
-      // Array(1).fill('task.removeChild(task.children[1])').map(item => eval(item));
+      goAttackHero(weaponsForAttack);
     } else {
       document.querySelector('.task__condition').innerHTML = 'неправильно';
-      console.log(conditionTask);
-      // Array(1).fill('task.removeChild(task.children[1])').map(item => eval(item));
+      goAttackMonster(weaponsForAttack);
     }
-    setTimeout(() => { document.querySelector('.modal.modal--task').className += ' element--hidden'; }, 0);
+    document.querySelector('.modal.modal--task').className += ' element--hidden';
   }
 
   // обработчик таска №6
@@ -618,14 +707,12 @@ document.querySelector('.modal').addEventListener('click', (e) => {
     const variable = document.querySelector('.task-8').value;
     if (conditionTask.indexOf(variable) !== -1) {
       document.querySelector('.task__condition').innerHTML = 'правильно';
-      goAttack(weaponsForAttack);
-      // Array(2).fill('task.removeChild(task.children[1])').map(item => eval(item));
+      goAttackHero(weaponsForAttack);
     } else {
       document.querySelector('.task__condition').innerHTML = 'неправильно';
-      console.log(conditionTask);
-      // Array(2).fill('task.removeChild(task.children[1])').map(item => eval(item));
+      goAttackMonster(weaponsForAttack);
     }
-    setTimeout(() => { document.querySelector('.modal.modal--task').className += ' element--hidden'; }, 0);
+    document.querySelector('.modal.modal--task').className += ' element--hidden';
   }
   // обработчик таска №9
   if (e.target.id === 'task9__button1' || e.target.id === 'task9__button2') {
@@ -637,14 +724,12 @@ document.querySelector('.modal').addEventListener('click', (e) => {
     }
     if (val === conditionTask) {
       document.querySelector('.task__condition').innerHTML = 'правильно';
-      goAttack(weaponsForAttack);
-      // Array(2).fill('task.removeChild(task.children[1])').map(item => eval(item));
+      goAttackHero(weaponsForAttack);
     } else {
       document.querySelector('.task__condition').innerHTML = 'неправильно';
-      // Array(2).fill('task.removeChild(task.children[1])').map(item => eval(item));
-      console.log(conditionTask);
+      goAttackMonster(weaponsForAttack);
     }
-    setTimeout(() => { document.querySelector('.modal.modal--task').className += ' element--hidden'; }, 0);
+    document.querySelector('.modal.modal--task').className += ' element--hidden';
   }
   // обработчик таска №10
   if (e.target.id === 'task10__button') {

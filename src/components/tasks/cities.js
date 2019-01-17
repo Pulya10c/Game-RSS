@@ -1,8 +1,8 @@
-import cities from './json/cities.json';
+﻿import cities from './json/cities.json';
 
 export default function sities() {
   const task = document.querySelector('#task-to-solve');
-  const city = cities[Math.floor(Math.random() * 31)];
+  const city = cities[Math.floor(Math.random() * cities.length)];
   task.innerHTML = `<div class="task__condition">
       <p>в какой стране находится город</p>
       </div>
@@ -11,5 +11,6 @@ export default function sities() {
       <input autofocus class = "task-7" type="text" style = 'width: ${city.country.length * 20}px;border: 2px solid red;'>
       </div>
      <input id = "task7__button" class="task__button" type="button" value="Ответить">`;
+  document.querySelector('.task-7').focus();
   return city.country;
 }

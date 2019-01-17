@@ -1,4 +1,4 @@
-// eslint-disable-next-line eslint no-eval
+﻿// eslint-disable-next-line eslint no-eval
 export default function compareNumbers() {
   const task = document.querySelector('#task-to-solve');
   const expressionFirst = `${Math.floor(Math.random() * 100)}`;
@@ -10,10 +10,10 @@ export default function compareNumbers() {
       <p id = "part2"> ${expressionPast}</p>   
      </div>
      <div className = "task2">
-     <input id = "task2__button1" class="task__button" type="button" value="<">
-     <input id = "task2__button2" class="task__button" type="button" value=">">
-     <input id = "task2__button3" class="task__button" type="button" value="=">
+     <input tabindex="0" autofocus id = "task2__button1" class="task__button" type="button" value="<">
+     <input tabindex="0" id = "task2__button2" class="task__button" type="button" value=">">
+     <input tabindex="0" id = "task2__button3" class="task__button" type="button" value="=">
       </div>`;
-      console.log(+expressionFirst, +expressionPast);
+  document.querySelector('#task2__button1').focus();
   return [+expressionFirst, +expressionPast];
 }

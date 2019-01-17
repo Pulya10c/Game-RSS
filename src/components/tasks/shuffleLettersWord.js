@@ -1,14 +1,14 @@
+﻿/* eslint-disable no-undef */
+/* eslint-disable no-plusplus */
 
 import Sortable from './sortir';
 import words from './json/words.json';
 
 export default function shuffleLettersWord() {
   const task = document.querySelector('#task-to-solve');
-  //   const words = require('../tasks/json/words.json');
-  const word = words[[Math.floor(Math.random() * 30)]].split('');
+  const word = words[[Math.floor(Math.random() * words.length)]].split('');
   const ask = word;
   const ask2 = word.join('');
-  // const result = word.json('');
   for (let i = word.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     const tmp = word[i];

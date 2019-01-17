@@ -9,3 +9,5 @@ import './components/modal-dialog/modal-dialog';
 import './screens/login/login';
 import './screens/score/score';
 import './components/navigation/navigation';
+
+// window.location.href = './lending.html';

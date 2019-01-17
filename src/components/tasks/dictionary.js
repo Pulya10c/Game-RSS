@@ -1,10 +1,9 @@
-
+﻿
 import words from './json/dictionary.json';
 
 export default function dictionary() {
   const task = document.querySelector('#task-to-solve');
-//   const words = require('../tasks/json/dictionary.json');
-  const wordTask = words[Math.floor(Math.random() * 30)];
+  const wordTask = words[Math.floor(Math.random() * words.length)];
   task.innerHTML = `<div class="task__condition">
       <p>Переведите слово:</p>
       </div>
@@ -13,5 +12,6 @@ export default function dictionary() {
       <input autofocus class = "task-8" type="text" style = 'text-align: center;width: 300px;border: 2px solid red;'>
       </div>
      <input id = "task8__button" class="task__button" type="button" value="Ответить">`;
+  document.querySelector('.task-8').focus();
   return wordTask.translation;
 }

@@ -1,9 +1,8 @@
-import spelling from './json/spelling.json';
+﻿import spelling from './json/spelling.json';
 
 export default function insertLetter() {
   const task = document.querySelector('#task-to-solve');
-//   const spelling = require('./tasks/json/spelling.json');
-  const random = Math.floor(Math.random() * 30);
+  const random = Math.floor(Math.random() * spelling.length);
   task.innerHTML = `<div class="task__condition">
       <p>Вставьте букву:</p>
       <p id = "part1">${spelling[random].firstPart} </p>
@@ -11,5 +10,6 @@ export default function insertLetter() {
       <p id = "part2"> ${spelling[random].secondPart}</p>   
      </div>
      <input id = "task3__button" class="task__button" type="button" value="Ответить">`;
+  document.querySelector('.task-3').focus();
   return spelling[random].letter;
 }

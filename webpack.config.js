@@ -1,6 +1,16 @@
-const path = require('path');
 
-module.exports = {
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const conf = {
+  entry: {
+    landing: './src/screens/landing/landing.js',
+    game: './src/index.js',
+  },
+  output: {
+    path: path.resolve(__dirname, './dist'),
+    filename: '[name].main.js',
+  },
   module: {
     rules: [
       {
@@ -48,4 +58,26 @@ module.exports = {
     compress: true,
     port: 9000,
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Pulya10c',
+      filename: 'index.html',
+      template: 'src/screens/landing/landing.html',
+      chunks: ['landing'],
+    }),
+    new HtmlWebpackPlugin({
+      title: 'Pulya10c',
+      filename: 'game.html',
+      template: 'src/index.html',
+      chunks: ['game'],
+    }),
+  ],
+};
+
+module.exports = (env, options) => {
+  const production = options.mode === 'production';
+
+  conf.devtool = production ? false : 'eval-sourcemap';
+
+  return conf;
 };
